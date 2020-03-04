@@ -11,7 +11,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install Components
       run: |
-        sudo apt remove -qyf lxd lxd-client lxcfs juju lxc-common liblxc1 || true
+        sudo apt remove -qyf lxd lxd-client
         sudo snap install juju --classic
         sudo snap install juju-wait --classic
         sudo snap install lxd
