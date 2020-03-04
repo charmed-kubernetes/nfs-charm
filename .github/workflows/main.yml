@@ -12,6 +12,7 @@ jobs:
     - name: Install Components
       run: |
         sudo apt remove -qyf lxd lxd-client
+        sudo apt install -qyf python3-setuptools
         sudo snap install juju --classic
         sudo snap install juju-wait --classic
         sudo snap install lxd
@@ -19,7 +20,8 @@ jobs:
         sudo /snap/bin/lxc network set lxdbr0 ipv6.address none
         git clone https://github.com/charmed-kubernetes/jenkins
         pushd jenkins
-        sudo pip3 install pytest pytest-asyncio pytest-forked pytest-xdist juju flaky aioify
+        sudo pip3 install pip-tools
+        sudo pip-sync
         popd
     - name: Bootstrap
       run: |
