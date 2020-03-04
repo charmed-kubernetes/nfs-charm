@@ -27,7 +27,7 @@ jobs:
       run: |
         sudo /snap/bin/juju bootstrap localhost/localhost nfs-controller -d nfs-model
         sudo /snap/bin/juju deploy -m nfs-controller:nfs-model cs:~containers/charmed-kubernetes
-        sudo /snap/bin/juju-wait -e nfs-controller:nfs-model -w
+        sudo /snap/bin/juju-wait -e nfs-controller:nfs-model -w -v || juju status -m nfs-controller:nfs-model --format yaml
         pushd jenkins
         pytest -m "not slow" jobs/integration/test_nfs.py::test_nfs --cloud localhost/localhost --controller nfs-controller --model nfs-model 
         popd
