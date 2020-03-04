@@ -1,0 +1,32 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install Components
+      run: |
+        sudo apt remove -qyf lxd lxd-client lxcfs juju lxc-common liblxc1 || true
+        sudo snap install juju --classic
+        sudo snap install juju-wait --classic
+        sudo snap install lxd
+        sudo /snap/bin/lxd init --auto
+        sudo /snap/bin/lxc network set lxdbr0 ipv6.address none
+        git clone https://github.com/charmed-kubernetes/jenkins
+        pushd jenkins
+        sudo pip3 install pip-tools
+        sudo pip-sync
+        popd
+    - name: Bootstrap
+      run: |
+        /snap/bin/juju bootstrap localhost/localhost nfs-controller -d nfs-model
+        /snap/bin/juju deploy -m nfs-controller:nfs-model cs:~containers/charmed-kubernetes
+        /snap/bin/juju-wait -e nfs-controller:nfs-model -w
+        pushd jenkins
+        pytest -m "not slow" jobs/integration/test_nfs.py::test_nfs --cloud localhost/localhost --controller nfs-controller --model nfs-model 
+        popd
