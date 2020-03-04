@@ -19,8 +19,7 @@ jobs:
         sudo /snap/bin/lxc network set lxdbr0 ipv6.address none
         git clone https://github.com/charmed-kubernetes/jenkins
         pushd jenkins
-        sudo pip3 install pip-tools
-        sudo pip-sync
+        sudo pip3 install pytest pytest-asyncio pytest-forked pytest-xdist juju flaky aioify
         popd
     - name: Bootstrap
       run: |
