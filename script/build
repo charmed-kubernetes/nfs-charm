@@ -1,0 +1,6 @@
+#!/bin/bash
+set -x
+
+: "${CHARM_BUILD_DIR:=/tmp/charms}"
+
+charm build -r --force -o "$CHARM_BUILD_DIR"
