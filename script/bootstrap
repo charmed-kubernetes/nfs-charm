@@ -1,0 +1,5 @@
+#!/bin/bash
+set -x
+
+sudo snap install charm --classic
+sudo snap install yq

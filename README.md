@@ -20,7 +20,7 @@ in the local data location.
 
 ### Kubernetes
 
-	conjure-up canonical-kubernetes
+	juju deploy charmed-kubernetes
 	juju deploy nfs
 	juju add-relation nfs kubernetes-worker
 
@@ -106,11 +106,3 @@ Finally:
  - storage_root: The root path where exported directories will be created
  - export_options: The default export options. Ships with rw,sync,no_root_squash,no_all_squash
  - mount_options: The default client mount options
-
-# Contact Information
-
-Mike Wilson <mike.wilson@canonical.com>
-
-## Upstream NFS Project
-
-- To view the source: https://github.com/hyperbolic2346/nfs-charm
